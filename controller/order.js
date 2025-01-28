@@ -171,6 +171,7 @@ const updateOrderById = async (req, res) => {
       // Iterate through products in the order to create entries in OrderSummary
       for (const product of updatedOrder.products) {
         const { productId, quantity, shopname } = product;
+        console.log("--",product);
 
         // Skip if product details are missing or incomplete
         if (!productId) {
@@ -186,7 +187,7 @@ const updateOrderById = async (req, res) => {
           orderId: updatedOrder._id,
           date: updatedOrder.createdAt,
           productId: productId._id,
-          quantity: quantity,
+          quantity: productId.quantity,
           shop: shopname ? shopname : "",
           totalAmount: totalAmount,
           singleproductprice: singleProductPrice,
