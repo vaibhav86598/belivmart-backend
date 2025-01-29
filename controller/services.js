@@ -79,8 +79,9 @@ const searchServices = async (req, res) => {
 // };
 const createProduct = async (req, res) => {
     try {
-      const { shopPrices, price, shopname } = req.body;
-  
+      const { shopPrices, price } = req.body;
+      req.body.productaddedby = req.user.id;
+        
       if (shopPrices && shopPrices.length > 0) {
         req.body.price = shopPrices[0]?.price || price; // Default to the first shop price if provided
       } else if (!price) {
@@ -122,6 +123,24 @@ const getAllProducts = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const getAllProductsforadmin = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const userRole = req.user.role;
+
+        let products;
+
+        if (userRole === 'admin') {
+            products = await Product.find().populate("category");
+        } else {
+            products = await Product.find({ productaddedby: userId }).populate("category");
+        }
+        res.status(200).json({ products, totalProducts: products.length });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 const getProductById = async (req, res) => {
     try {
@@ -194,6 +213,11 @@ module.exports = {
     deleteProduct,
     updateProduct,
     getProductById,
+    getAllProductsforadmin,
+
+
+
+
     getservicebyid,
     getRelatedProducts,
     searchServices,

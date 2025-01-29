@@ -61,6 +61,9 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: "false",
       },
+      seenby: {
+        type: String,
+      },
       called:{
         type: String,
         default: "false",

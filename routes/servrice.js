@@ -3,6 +3,7 @@ const OrderData = require("../controller/order");
 const Admin = require("../controller/admin");
 const express = require("express");
 const service = express.Router();
+const Auth = require("../middleware/Auth");
 
 service.get("/get-all-categories", ServiceData.getAllServices);
 service.post("/add-category", ServiceData.createService);
@@ -12,11 +13,12 @@ service.get("/get-single-category/:id", ServiceData.getservicebyid);
 service.get("/services/search/:name", ServiceData.searchServices);
 
 // product
+service.post("/create-product",Auth.IsAuthenticateUser, ServiceData.createProduct);
 service.get("/get-products-by-service-id/:name", ServiceData.getproductsbyserviceid);
-service.post("/create-product", ServiceData.createProduct);
 service.delete("/delete-product/:id", ServiceData.deleteProduct);
 service.put("/update-product/:id", ServiceData.updateProduct);
 service.get("/get-single-product/:id", ServiceData.getProductById);
+service.get("/get-all-products-for-admin", Auth.IsAuthenticateUser,ServiceData.getAllProductsforadmin);
 service.get("/get-all-products", ServiceData.getAllProducts);
 service.get("/products/search", ServiceData.getRelatedProducts);
 service.get("/gettopsaller", ServiceData.gettopsaller);

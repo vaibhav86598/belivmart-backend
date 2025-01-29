@@ -67,7 +67,12 @@ const serviceSchema = new mongoose.Schema({
   topsaller:{
     type:String,
     default:"false"
-  }
+  },
+  productaddedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  
 });
 
 module.exports = mongoose.model("Product", serviceSchema);

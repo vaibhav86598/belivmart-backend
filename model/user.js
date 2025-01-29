@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 
 // Define user schema
 const userSchema = new mongoose.Schema({
- username: {
+  username: {
     type: String,
- },
+  },
   mobileNumber: {
     type: Number,
   },
@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  categoryacess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
+  ],
 });
 
 // Encrypt password

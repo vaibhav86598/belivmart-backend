@@ -58,7 +58,20 @@ const RegisterUser = async (req, res, next) => {
     sendToken(user, 200, res);
   };
   const myProfile = async (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Please login to access this resource",
+      });
+    }
+
     const user = await User.findById(req.user.id);
+    if(!user){
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
     res.status(200).json({
       success: true,
       user,
